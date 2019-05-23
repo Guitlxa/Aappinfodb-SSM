@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- 设置全局性懒加载 -->
+	<settings>
+		<setting name="lazyLoadingEnabled" value="false"/>
+	</settings>
+	<!-- 为所有实体类的完成类名取一个别名 -->
+	<typeAliases>
+		<package name="cn.app.pojo"/>
+	</typeAliases>
+</configuration>

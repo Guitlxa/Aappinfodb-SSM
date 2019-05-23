@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/mvc 
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+
+	<!-- 1、读取database.properties配置文件，获取数据库连接信息 -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location">
+			<value>classpath:database.properties</value>
+		</property>
+	</bean>
+	<!-- 2、配置数据源BasicDataSource -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${driver}"/>
+		<property name="url" value="${url}"></property>
+		<property name="username" value="${username}"/>
+		<property name="password" value="${password}"></property>
+	</bean>
+	<!-- 3、创建SqlSessionFactoryBean实例对象 -->
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 3.1 引入数据源对象 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 3.2 引入mybatis的配置文件 -->
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+		<!-- 3.3 引入Mapper映射文件 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:cn/app/dao/**/*.xml</value>
+			</list>
+		</property>
+	</bean>
+	<!-- 4、使用MapperScannerConfigurer去简化DAO层的配置
+			好处：1、自动为cn.app.dao下的所有接口创建其接口实现类以及实现类的bean实例对象。
+			    2、自动创建SqlSessionTemplate实例对象，并把这个对象注入给实现类的bean实例对象。
+	 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="cn.app.dao"></property>
+	</bean>
+	<!-- 5、使用注解去简化Service层的配置，对cn.app.service包里面的类进行扫描，让这些类支持
+		@Service、@Resource -->
+	<context:component-scan base-package="cn.app.service"/>
+	
+	<!-- 6、为service业务层添加【声明式事务增强 】-->
+	<!-- 6.1  配置声明式事务管理器 -->
+	<bean id="txMgr" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+		<!-- 6.2 配置声明式事务增强, 将上面配置事务管理器进行引入，设置声明式事务增强的属性 -->
+	<tx:advice id="txAdvice" transaction-manager="txMgr">
+		<tx:attributes>
+			<tx:method name="query*" propagation="SUPPORTS"/>
+			<tx:method name="get" propagation="SUPPORTS"/>
+			<tx:method name="del*" propagation="REQUIRED"/>
+			<tx:method name="insert*" propagation="REQUIRED"/>
+			<tx:method name="update*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+	<!-- 6.2 使用AOP将配置好后的声明式事务增强织入业务层的指定方法中 -->
+	<aop:config>
+		<!-- 6.2.1 定义一个切入点，告诉Spring需要进行事务增强处理的连接点在哪里 -->
+		<aop:pointcut expression="execution(* cn.app.service.*.*(..))" id="pointcut"/>
+		<!-- 使用aop:advise 将声明式事务增强织入业务层的指定方法中 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pointcut"/>
+	</aop:config>
+</beans>
