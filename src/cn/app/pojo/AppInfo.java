@@ -40,6 +40,8 @@ public class AppInfo {
 	
 	private Integer versionId;//最新的版本id
 	private String versionNo;//最新的版本号
+	
+	private String hahah;
 		
 	public String getVersionNo() {
 		return versionNo;
