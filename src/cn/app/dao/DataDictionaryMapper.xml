@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.app.dao.DataDictionaryMapper">
+		<!-- 根据typeCode查询APP状态 --> 
+	<select id="gedataDictionaryList" resultType="DataDictionary">
+		SELECT * FROM `data_dictionary` 
+		<where>
+			<if test="typeCode != null">
+				and typeCode= #{typeCode}
+			</if>
+		</where>
+	</select>
+</mapper>

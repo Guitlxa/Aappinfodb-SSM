@@ -1,7 +1,7 @@
 package cn.app.tools;
 
 public class Page {
-	private Integer currPageNo; // 当前页码 curr是current单词的简写，当前的意思
+	private Integer currPageNo; // 当前页码
 	private Integer pageSize; // 每一页显示的数据行数，页面大小
 	private Integer totalCount; // 总的记录数。
 	private Integer totalPageCount; // 总的页数

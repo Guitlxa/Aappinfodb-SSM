@@ -11,6 +11,6 @@ public interface DevUserService {
 	 * @param devName 密码
 	 * @return
 	 */
-	DevUser login(@Param("devCode") String devCode,
-			@Param("devPassword") String devPassword);
+	DevUser login(String devCode,
+			String devPassword);
 }
