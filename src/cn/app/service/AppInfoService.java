@@ -51,4 +51,10 @@ public interface AppInfoService {
 		
 		//新增方法
 		int addInfo(AppInfo appInfo);
+		
+		//新增方法
+		int modifyInfo(AppInfo appInfo);
+		
+		//根据id删除图片的路径(数据库中)
+		boolean deleLogPath(Integer id);
 }

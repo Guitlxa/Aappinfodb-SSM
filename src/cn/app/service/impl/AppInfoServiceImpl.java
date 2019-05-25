@@ -41,6 +41,21 @@ public class AppInfoServiceImpl implements AppInfoService{
 		return appinfomapper.addInfo(appInfo);
 	}
 
+	@Override
+	public int modifyInfo(AppInfo appInfo) {
+		return appinfomapper.modifyInfo(appInfo);
+	}
+
+	@Override
+	public boolean deleLogPath(Integer id) {
+		int result=appinfomapper.deleLogPath(id);
+		if(result>0){
+			return true;
+		}else {
+			return false;
+		} 
+	}
+
 
 	
 	

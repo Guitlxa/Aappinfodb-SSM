@@ -202,10 +202,11 @@
 											statusname="${appInfo.statusName }"											
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="修改APP最新版本信息">修改版本</a>
                         </li>
-                        <li><a  class="modifyAppInfo" 
+                        <li><a  class="modifyAppInfo" value="${pageContext.request.contextPath }/appInf/modifyT"
 											appinfoid="${appInfo.id }" status="${appInfo.status }" statusname="${appInfo.statusName }"
 											data-toggle="tooltip" data-placement="top" title="" data-original-title="修改APP基础信息">修改</a></li>
-                        <li><a  class="viewApp" appinfoid=${appInfo.id }  data-toggle="tooltip" data-placement="top" title="" data-original-title="查看APP基础信息以及全部版本信息">查看</a></li>
+                        <li><a  class="viewApp" appinfoid=${appInfo.id }  data-toggle="tooltip" data-placement="top" title="" data-original-title="查看APP基础信息以及全部版本信息"
+                        			value="${pageContext.request.contextPath }/appInf/ViewT">查看</a></li>
 						<li><a  class="deleteApp" appinfoid=${appInfo.id }  appsoftwarename=${appInfo.softwareName } data-toggle="tooltip" data-placement="top" title="" data-original-title="删除APP基础信息以及全部版本信息">删除</a></li>
                       </ul>
                     </div>

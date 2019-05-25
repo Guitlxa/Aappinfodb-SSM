@@ -165,7 +165,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="appVersion" items="${appVersionList }" varStatus="status">
+							<c:forEach var="appVersion" items="${appinfolist}" varStatus="status">
 								<tr role="row" class="odd">
 									<td tabindex="0" class="sorting_1">${appVersion.appName}</td>
 									<td>${appVersion.versionNo }</td>

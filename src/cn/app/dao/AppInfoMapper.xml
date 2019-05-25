@@ -91,30 +91,52 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<!-- 新增APP信息 -->
 	<insert id="addInfo" parameterType="AppInfo">
 		INSERT INTO `appinfodb`.`app_info`
-		(`softwareName`,
-		`APKName`,
-		`supportROM`,
-		`interfaceLanguage`,
-		`softwareSize`,
-		`updateDate`,
-		`devId`,
-		`appInfo`,
-		`status`,
-		`onSaleDate`,
-		`offSaleDate`,
-		`flatformId`,
-		`categoryLevel3`,
-		`downloads`,
-		`createdBy`,
-		`creationDate`,
-		`categoryLevel1`,
-		`categoryLevel2`,
-		`logoPicPath`,
-		`logoLocPath`,
-		`versionId`)
+		(`softwareName`,`APKName`,`supportROM`,`interfaceLanguage`,
+		`softwareSize`,`updateDate`,`devId`,`appInfo`,`status`,
+		`onSaleDate`,`offSaleDate`,`flatformId`,`categoryLevel3`,
+		`downloads`,`createdBy`,`creationDate`,`categoryLevel1`,
+		`categoryLevel2`,`logoPicPath`,`logoLocPath`,`versionId`)
 		value(
-		
-		
+			#{softwareName},#{APKName},#{supportROM},#{interfaceLanguage},
+			#{softwareSize},#{updateDate},#{devId},#{appInfo},#{status},
+			#{onSaleDate},#{offSaleDate},#{flatformId},#{categoryLevel3},
+			#{downloads},#{createdBy},#{creationDate},#{categoryLevel1},
+			#{categoryLevel2},#{logoPicPath},#{logoLocPath},#{versionId}
 		)
 	</insert>
+	
+	<!-- 修改APP信息 -->
+	<update id="modifyInfo" parameterType="AppInfo">
+		UPDATE `app_info` 
+		SET
+		`softwareName`= #{softwareName},
+		`APKName`= #{APKName},
+		`supportROM`= #{supportROM},
+		`interfaceLanguage`= #{interfaceLanguage},
+		`softwareSize`= #{softwareSize},
+		`updateDate`= #{updateDate},
+		`devId`= #{devId},
+		`appInfo`= #{appInfo},
+		`status` = (SELECT `valueId` FROM `data_dictionary` WHERE `valueName`=#{statusName}),
+		`onSaleDate`= #{onSaleDate},
+		`offSaleDate`= #{offSaleDate},
+		`flatformId`= #{flatformId},
+		`categoryLevel3`=#{categoryLevel3},
+		`downloads`=#{downloads},
+		`modifyBy` = #{modifyBy},
+ 		`modifyDate` = #{modifyDate},
+		`categoryLevel1`=#{categoryLevel1},
+		`categoryLevel2`=#{categoryLevel2},
+		`logoPicPath`=#{logoPicPath},
+		`logoLocPath`=#{logoLocPath},
+		`versionId`=#{versionId}
+		WHERE `id` = #{id}
+	</update>
+	
+	<!-- 根据id删除图片路径（数据库中） -->
+	<delete id="deleLogPath">
+		UPDATE  `app_info` 
+		SET `logoPicPath` = NULL ,`logoLocPath` = NULL
+		WHERE `id` = #{id}
+	</delete>
 </mapper>

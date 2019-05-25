@@ -1,12 +1,15 @@
+var pathName=window.document.location.pathname;
+//截取，得到项目名称
+var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
 function  loadCategoryLevel(pid,cl,categoryLevel){
 	$.ajax({
 		type:"GET",//请求类型
-		url:"categorylevellist.json",//请求的url
+		url:projectName+"/appInf/litY",//请求的url
 		data:{pid:pid},//请求参数
 		dataType:"json",//ajax接口（请求url）返回的数据类型
 		success:function(data){//data：返回数据（json对象）
 			
-			$("#"+categoryLevel).html("");
+			$("#"+categoryLevel	).html("");
 			var options = "<option value=\"\">--请选择--</option>";
 			for(var i = 0; i < data.length; i++){
 				if(cl != null && cl != undefined && data[i].id == cl ){
@@ -26,7 +29,7 @@ function  loadCategoryLevel(pid,cl,categoryLevel){
 function delfile(id){
 	$.ajax({
 		type:"GET",//请求类型
-		url:"delfile.json",//请求的url
+		url:projectName+"/appInf/delePhotho",//请求的url
 		data:{id:id,flag:'logo'},//请求参数
 		dataType:"json",//ajax接口（请求url）返回的数据类型
 		success:function(data){//data：返回数据（json对象）
@@ -36,6 +39,8 @@ function delfile(id){
 				$("#logoFile").html('');
 			}else if(data.result == "failed"){
 				alert("删除失败！");
+			}else if(data.result == "noexists"){
+				alert("要删除的图片不存在！");
 			}
 		},
 		error:function(data){//当访问时候，404，500 等非200的错误状态码
@@ -48,7 +53,7 @@ $(function(){
 	//动态加载所属平台列表
 	$.ajax({
 		type:"GET",//请求类型
-		url:"datadictionarylist.json",//请求的url
+		url:projectName+"/appInf/getDataDictionaryByCode",//请求的url
 		data:{tcode:"APP_FLATFORM"},//请求参数
 		dataType:"json",//ajax接口（请求url）返回的数据类型
 		success:function(data){//data：返回数据（json对象）

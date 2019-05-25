@@ -1,4 +1,4 @@
-
+	
 var pathName=window.document.location.pathname;
 //截取，得到项目名称
 var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
@@ -86,7 +86,7 @@ $(".modifyAppInfo").on("click",function(){
 	var obj = $(this);
 	var status = obj.attr("status");
 	if(status == "1" || status == "3"){//待审核、审核未通过状态下才可以进行修改操作
-		window.location.href="appinfomodify?id="+ obj.attr("appinfoid");
+		window.location.href = projectName+"/appInf/modifyT/"+ obj.attr("appinfoid");
 	}else{
 		alert("该APP应用的状态为：【"+obj.attr("statusname")+"】,不能修改！");
 	}
@@ -177,7 +177,8 @@ var saleSwitchAjax = function(appId,obj){
 
 $(".viewApp").on("click",function(){
 	var obj = $(this);
-	window.location.href="appview/"+ obj.attr("appinfoid");
+	window.location.href = projectName+"/appInf/ViewT/"+ obj.attr("appinfoid");
+	
 });
 
 $(".deleteApp").on("click",function(){
